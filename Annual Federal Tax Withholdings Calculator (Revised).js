@@ -30,7 +30,7 @@ if(taxable_income<=annualMinimum+taxBracket[0][filing_status]){
 }
  else {
 
-//annual income is at or below the first tax bracket plus $3,800
+//annual income is at or below the first tax bracket plus $3,800 
 if(taxable_income<=annualMinimum+taxBracket[1][filing_status]){
        base = 0;
        amount_To_Withhold = round((base+((taxable_income-(annualMinimum+taxBracket[0][filing_status]))*taxBracket[0].Rate)),2);
