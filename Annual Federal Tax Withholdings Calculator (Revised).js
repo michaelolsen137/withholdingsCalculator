@@ -1,8 +1,3 @@
-function round(value, precision) {
-   var multiplier = Math.pow(10, precision || 0);
-   return Math.round(value * multiplier) / multiplier;
-}
-
 var base;
 var annualMinimum = 3800
 var amount_To_Withhold;
@@ -15,11 +10,17 @@ var taxBracket =   [ {Rate: .10, Single: 0,      Married: 0,      HeadofHousehol
                      {Rate: .37, Single: 510300, Married: 612300, HeadofHousehold: 510300}
                    ];
 
+function round(value, precision) {
+   var multiplier = Math.pow(10, precision || 0);
+   return Math.round(value * multiplier) / multiplier;
+}
+
 function withholdingsCalculator(taxable_income, filing_status) {
 base = 0;
 let j = 1;
 let k = 0;
 
+//annual income is at or below $3,800
 if(taxable_income<=annualMinimum+taxBracket[0][filing_status]){
   amount_To_Withhold = 0
   console.log('Base when income is ' + '$' + taxable_income + ' for a ' + filing_status + ' filer: $' + base);
@@ -28,6 +29,8 @@ if(taxable_income<=annualMinimum+taxBracket[0][filing_status]){
   return 0;
 }
  else {
+
+//annual income is at or below the first tax bracket plus $3,800
 if(taxable_income<=annualMinimum+taxBracket[1][filing_status]){
        base = 0;
        amount_To_Withhold = round((base+((taxable_income-(annualMinimum+taxBracket[0][filing_status]))*taxBracket[0].Rate)),2);
@@ -37,6 +40,8 @@ if(taxable_income<=annualMinimum+taxBracket[1][filing_status]){
          return amount_To_Withhold
        }
      else {
+
+//this is where the repeatable calculations begin to occur
   for (let i = 1; i <= 6; i++) {
     base = base + ((taxBracket[j][filing_status]-taxBracket[k][filing_status])*taxBracket[k].Rate);
     amount_To_Withhold = round((base+((taxable_income-(annualMinimum+taxBracket[i][filing_status]))*taxBracket[i].Rate)),2);
