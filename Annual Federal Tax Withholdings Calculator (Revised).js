@@ -1,6 +1,7 @@
 var base;
 var annualMinimum = 3800
 var amount_To_Withhold;
+
 var taxBracket =   [ {Rate: .10, Single: 0,      Married: 0,      HeadofHousehold: 0},
                      {Rate: .12, Single: 9700,   Married: 19400,  HeadofHousehold: 13850},
                      {Rate: .22, Single: 39475,  Married: 78950,  HeadofHousehold: 52850},
@@ -30,7 +31,7 @@ if(taxable_income<=annualMinimum+taxBracket[0][filing_status]){
 }
  else {
 
-//annual income is at or below the first tax bracket plus $3,800 
+//annual income is at or below the first tax bracket plus $3,800
 if(taxable_income<=annualMinimum+taxBracket[1][filing_status]){
        base = 0;
        amount_To_Withhold = round((base+((taxable_income-(annualMinimum+taxBracket[0][filing_status]))*taxBracket[0].Rate)),2);
